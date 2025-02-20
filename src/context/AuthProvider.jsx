@@ -1,8 +1,10 @@
 import { createContext, useEffect, useState } from "react";
 import auth from "../../public/firebase.config";
 import {
+  createUserWithEmailAndPassword,
   GoogleAuthProvider,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
 } from "firebase/auth";
@@ -12,6 +14,10 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState("light");
+  const [showPassword,setShowPassword]=useState(false) 
+  const [errorMessage, setErrorMessage] = useState("");
+
+  // console.log(user)
 
   // dark and light mode toggle.
 
@@ -57,12 +63,17 @@ const AuthProvider = ({ children }) => {
 
   const authInfo = {
     user,
+    setUser,
     createUser,
     loading,
     login,
     setLoading,
     signInWithGoogle,
     logOut,
+    errorMessage,
+    setErrorMessage,
+    showPassword,
+    setShowPassword,
     handleToggleTheme,
   };
 

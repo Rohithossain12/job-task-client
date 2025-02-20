@@ -2,6 +2,7 @@ import { FaMoon, FaSun } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom"; // Use NavLink for active link styling
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -12,8 +13,15 @@ const Navbar = () => {
     setIsDarkMode(!isDarkMode);
   };
 
-
-  
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        toast.success("Logout Successfully");
+      })
+      .catch(() => {
+        toast.error("logout Unsuccessfully");
+      });
+  };
 
   return (
     <div className="bg-base-100 shadow-sm sticky top-0 z-50">
@@ -88,7 +96,10 @@ const Navbar = () => {
           </NavLink>
 
           {/* Theme toggle button */}
-          <button onClick={handleThemeToggle} className="text-xl hover:text-gray-400">
+          <button
+            onClick={handleThemeToggle}
+            className="text-xl hover:text-gray-400"
+          >
             {isDarkMode ? <FaSun /> : <FaMoon />}
           </button>
 
@@ -97,13 +108,10 @@ const Navbar = () => {
             <>
               <img
                 className="h-10 w-10 rounded-full border border-gray-400"
-                src="" // Assuming user has a photoURL
+                src={user?.photoURL}
                 alt="User"
               />
-              <button
-                onClick={logOut}
-                className="btn "
-              >
+              <button onClick={handleLogout} className="btn ">
                 Logout
               </button>
             </>
