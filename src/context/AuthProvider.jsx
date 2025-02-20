@@ -1,4 +1,4 @@
-import { createContext, useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
 import auth from "../../public/firebase.config";
 import {
   GoogleAuthProvider,
@@ -11,6 +11,17 @@ const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [theme, setTheme] = useState("light");
+
+  // dark and light mode toggle.
+
+  const handleToggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
+  useEffect(() => {
+    document.querySelector("html").setAttribute("data-theme", theme);
+  }, [theme]);
 
   // user login with google
   const signInWithGoogle = () => {
@@ -39,6 +50,7 @@ const AuthProvider = ({ children }) => {
     setLoading,
     signInWithGoogle,
     logOut,
+    handleToggleTheme,
   };
 
   return (
