@@ -23,6 +23,17 @@ const AuthProvider = ({ children }) => {
     document.querySelector("html").setAttribute("data-theme", theme);
   }, [theme]);
 
+  // Create new User
+  const createUser = (email, password) => {
+    setLoading(true);
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
+  // login user
+  const login = (email, password) => {
+    setLoading(true);
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+
   // user login with google
   const signInWithGoogle = () => {
     setLoading(true);
@@ -46,7 +57,9 @@ const AuthProvider = ({ children }) => {
 
   const authInfo = {
     user,
+    createUser,
     loading,
+    login,
     setLoading,
     signInWithGoogle,
     logOut,

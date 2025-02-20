@@ -1,6 +1,6 @@
 
 
-const TaskForm = () => {
+const Register = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const TaskForm = () => {
     );
 };
 
-export default TaskForm;
+export default Register;
