@@ -2,35 +2,22 @@ import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import toast from "react-hot-toast";
+import axios from "axios";
+import SocialLogin from "./SocialLogin";
 
 const Register = () => {
   const navigate = useNavigate();
   const {
     createUser,
-    signInWithGoogle,
-    user,
-    setUser,
+    users,
+    setUsers,
     errorMessage,
     setErrorMessage,
     showPassword,
     setShowPassword,
   } = useAuth();
 
-  const handleGoogleLogin = () => {
-    signInWithGoogle()
-      .then((result) => {
-        const user = result.user;
-        setUser(user);
-        toast.success(" Login successful");
-
-        navigate("/");
-      })
-      .catch(() => {
-        toast.error(" Login Unsuccessful");
-      });
-  };
-
-  const handleRegister = (event) => {
+  const handleRegister = async (event) => {
     event.preventDefault();
     const name = event.target.name.value;
     const photo = event.target.photo.value;
@@ -51,20 +38,26 @@ const Register = () => {
       setErrorMessage(" at least one uppercase,one lowercase,one number");
       return;
     }
+    try {
+      const result = await createUser(email, password);
+      const user = result.user;
+      setUsers(user);
+      toast.success("Register Successful");
 
-    createUser(email, password)
-      .then((result) => {
-        const user = result.user;
+      const userData = {
+        uid: users?.uid,
+        name,
+        email,
+        photo,
+      };
 
-        setUser(user);
-        toast.success("Register Successful");
-        event.target.reset();
-        navigate("/");
-      })
-
-      .catch((error) => {
-        setErrorMessage(error.message);
-      });
+      // Send user data to the database using Axios
+      await axios.post("http://localhost:5000/users", userData);
+      event.target.reset();
+      navigate("/");
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
   };
 
   return (
@@ -157,13 +150,7 @@ const Register = () => {
 
         {/* Custom Google Login Button with React Icons */}
         <div className="mt-4 text-center">
-          <button
-            onClick={handleGoogleLogin}
-            className="w-full p-3 bg-white text-gray-800 rounded-md flex items-center justify-center border border-gray-300 hover:bg-gray-100 transition duration-200"
-          >
-            <FaGoogle className="mr-2 text-xl" />
-            Login with Google
-          </button>
+          <SocialLogin></SocialLogin>
         </div>
 
         {/* Register Link */}

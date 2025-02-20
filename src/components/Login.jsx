@@ -2,12 +2,13 @@ import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import toast from "react-hot-toast";
+import SocialLogin from "./SocialLogin";
 
 const Login = () => {
   const {
-    signInWithGoogle,
+    users,
     login,
-    setUser,
+    setUsers,
     errorMessage,
     setErrorMessage,
     showPassword,
@@ -15,19 +16,6 @@ const Login = () => {
   } = useAuth();
 
   const navigate = useNavigate();
-  const handleGoogleLogin = () => {
-    signInWithGoogle()
-      .then((result) => {
-        const user = result.user;
-        setUser(user);
-        toast.success(" Login successful");
-
-        navigate("/");
-      })
-      .catch(() => {
-        toast.error(" Login Unsuccessful");
-      });
-  };
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -41,9 +29,8 @@ const Login = () => {
       return;
     }
 
-    // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/;
-    
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
 
     if (!passwordRegex.test(password)) {
       setErrorMessage(" at least one uppercase,one lowercase,one number");
@@ -53,7 +40,7 @@ const Login = () => {
     login(email, password)
       .then((result) => {
         const user = result.user;
-        setUser(user);
+        setUsers(user);
         toast.success("User login successful");
         event.target.reset();
         navigate("/");
@@ -124,13 +111,7 @@ const Login = () => {
 
         {/* Custom Google Login Button with React Icons */}
         <div className="mt-4 text-center">
-          <button
-            onClick={handleGoogleLogin}
-            className="w-full p-3 bg-white text-gray-800 rounded-md flex items-center justify-center border border-gray-300 hover:bg-gray-100 transition duration-200"
-          >
-            <FaGoogle className="mr-2 text-xl" />
-            Login with Google
-          </button>
+          <SocialLogin></SocialLogin>
         </div>
 
         {/* Register Link */}

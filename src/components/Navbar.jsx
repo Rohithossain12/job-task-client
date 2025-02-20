@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 
 const Navbar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const { handleToggleTheme, user, logOut } = useAuth(); // Assuming user and handleLogout are in useAuth
+  const { handleToggleTheme, users, logOut } = useAuth(); // Assuming user and handleLogout are in useAuth
 
   const handleThemeToggle = () => {
     handleToggleTheme();
@@ -104,11 +104,11 @@ const Navbar = () => {
           </button>
 
           {/* Conditional user image and logout button */}
-          {user ? (
+          {users ? (
             <>
               <img
                 className="h-10 w-10 rounded-full border border-gray-400"
-                src={user?.photoURL}
+                src={users?.photoURL}
                 alt="User"
               />
               <button onClick={handleLogout} className="btn ">
