@@ -17,7 +17,7 @@ const AuthProvider = ({ children }) => {
   const [showPassword,setShowPassword]=useState(false) 
   const [errorMessage, setErrorMessage] = useState("");
 
-  // console.log(user)
+
 
   // dark and light mode toggle.
 

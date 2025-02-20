@@ -5,18 +5,21 @@ import Footer from "../components/Footer";
 const MainLayout = () => {
   const location = useLocation();
 
-  const isAuthPage =
-    location.pathname === "/login" || location.pathname === "/register";
+  // Hide Navbar & Footer on these routes
+  const isExcludedPage =
+    location.pathname.startsWith("/dashboard") ||
+    location.pathname === "/login" ||
+    location.pathname === "/register";
 
   return (
     <div>
-      {!isAuthPage && <Navbar />}
+      {!isExcludedPage && <Navbar />}
 
       <div className="min-h-[calc(100vh-120px)] container mx-auto px-5">
         <Outlet />
       </div>
 
-      {!isAuthPage && <Footer />}
+      {!isExcludedPage && <Footer />}
     </div>
   );
 };
