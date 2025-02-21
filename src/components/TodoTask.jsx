@@ -99,7 +99,7 @@ const TodoTask = ({ task, refetch }) => {
   return (
     <div
       ref={drag}
-      className={`relative p-5 mt-8 shadow-md rounded-md bg-white ${
+      className={`relative p-5 mt-4 shadow-md rounded-md bg-white ${
         isDragging ? "opacity-25" : "opacity-100"
       } cursor-grab`}
     >
@@ -110,13 +110,13 @@ const TodoTask = ({ task, refetch }) => {
             name="name"
             value={editedTask.name}
             onChange={handleInputChange}
-            className="w-full border p-2 rounded-md"
+            className="w-full border p-2 text-gray-800 rounded-md"
           />
           <textarea
             name="description"
             value={editedTask.description}
             onChange={handleInputChange}
-            className="w-full border p-2 rounded-md"
+            className="w-full border p-2 text-gray-800 rounded-md"
           />
           <div className="flex justify-end space-x-2">
             <button
@@ -135,10 +135,10 @@ const TodoTask = ({ task, refetch }) => {
         </div>
       ) : (
         <>
-          <p className="font-semibold text-lg">{task?.name}</p>
-          <p className="overflow-hidden text-gray-600">{task.description}</p>
+          <p className="font-semibold text-gray-800 text-lg">{task?.name}</p>
+          <p className="overflow-hidden text-gray-800">{task.description}</p>
 
-          <div className="flex gap-4 absolute top-3 right-2 text-slate-400">
+          <div className="flex gap-4 absolute top-3 right-2 text-slate-500">
             <button onClick={() => handleDelete(task._id)}>
               <MdDeleteOutline size={20} />
             </button>
