@@ -1,51 +1,39 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
 import { Toaster } from "react-hot-toast";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AuthProvider from "./context/AuthProvider.jsx";
 import MainLayout from "./layout/MainLayout.jsx";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./pages/home/Home.jsx";
-import Dashboard from "./pages/dashboard/Dashboard.jsx";
 import Login from "./components/Login.jsx";
 import Register from "./components/Register.jsx";
 import PrivateRoute from "./routes/PrivateRoute.jsx";
-import Task from "./pages/dashboard/Task.jsx";
+import './index.css';
+
+// Initialize the query client
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout></MainLayout>,
+    element: <MainLayout />,
     children: [
       {
         path: "/",
         element: (
           <PrivateRoute>
-            <Home></Home>
+            <Home />
           </PrivateRoute>
         ),
       },
       {
         path: "/login",
-        element: <Login></Login>,
+        element: <Login />,
       },
       {
         path: "/register",
-        element: <Register></Register>,
-      },
-      {
-        path: "/dashboard",
-        element: (
-          <PrivateRoute>
-            <Dashboard></Dashboard>
-          </PrivateRoute>
-        ),
-        children: [
-          {
-            path: "/dashboard/tasks",
-            element: <Task></Task>,
-          },
-        ],
+        element: <Register />,
       },
     ],
   },
@@ -54,8 +42,10 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
-      <Toaster />
-      <RouterProvider router={router}></RouterProvider>
+      <QueryClientProvider client={queryClient}>
+        <Toaster />
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </AuthProvider>
   </StrictMode>
 );

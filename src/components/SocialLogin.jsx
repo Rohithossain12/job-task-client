@@ -16,10 +16,10 @@ const SocialLogin = () => {
         toast.success(" Login successful");
 
         const userData = {
-          uid: users?.uid,
-          name: users?.displayName,
-          email: users?.email,
-          photo: users?.photoURL,
+          uid: user?.uid,
+          name: user?.displayName,
+          email: user?.email,
+          photo: user?.photoURL,
         };
 
         axios.post("http://localhost:5000/users", userData);

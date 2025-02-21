@@ -58,16 +58,6 @@ const Navbar = () => {
                   Home
                 </NavLink>
               </li>
-              <li>
-                <NavLink
-                  to="/dashboard"
-                  className={({ isActive }) =>
-                    isActive ? "text-yellow-500" : "text-black"
-                  }
-                >
-                  Dashboard
-                </NavLink>
-              </li>
             </ul>
           </div>
           <Link to="/">
@@ -85,14 +75,6 @@ const Navbar = () => {
             }
           >
             Home
-          </NavLink>
-          <NavLink
-            to="/dashboard"
-            className={({ isActive }) =>
-              `text-black hidden md:block ${isActive ? "text-yellow-500" : ""}`
-            }
-          >
-            Dashboard
           </NavLink>
 
           {/* Theme toggle button */}

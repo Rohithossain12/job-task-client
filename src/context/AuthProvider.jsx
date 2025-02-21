@@ -12,15 +12,13 @@ export const AuthContext = createContext(null);
 const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [users, setUsers] = useState(null);
+  console.log(users)
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState("light");
-  const [showPassword,setShowPassword]=useState(false) 
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-
-
   // dark and light mode toggle.
-
   const handleToggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };

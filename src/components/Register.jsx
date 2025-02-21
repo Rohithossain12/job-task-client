@@ -45,7 +45,7 @@ const Register = () => {
       toast.success("Register Successful");
 
       const userData = {
-        uid: users?.uid,
+        uid: user?.uid,
         name,
         email,
         photo,
