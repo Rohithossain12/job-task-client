@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="footer sm:footer-horizontal footer-center bg-base-300 text-base-content p-4">
+    <footer className="footer bg-green-500 sm:footer-horizontal footer-center text-white p-4">
       <aside>
         <p className="text-lg font-bold">
           Copyright © {new Date().getFullYear()} - All right reserved by Rohit

@@ -24,7 +24,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-base-100 shadow-sm sticky top-0 z-50">
+    <div className="bg-green-500 shadow-sm sticky top-0 z-50">
       <div className="navbar container mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
@@ -52,7 +52,7 @@ const Navbar = () => {
                 <NavLink
                   to="/"
                   className={({ isActive }) =>
-                    isActive ? "text-yellow-500" : "text-black"
+                    isActive ? "text-white" : "text-black"
                   }
                 >
                   Home
@@ -61,7 +61,7 @@ const Navbar = () => {
             </ul>
           </div>
           <Link to="/">
-            <h2 className="text-lg md:text-xl font-bold text-accent md:ml-0 ml-2">
+            <h2 className="text-lg md:text-xl font-bold text-white md:ml-0 ml-2">
               TaskFlow
             </h2>
           </Link>
@@ -71,7 +71,7 @@ const Navbar = () => {
           <NavLink
             to="/"
             className={({ isActive }) =>
-              `text-black hidden md:block ${isActive ? "text-yellow-500" : ""}`
+              `text-black hidden md:block ${isActive ? "text-white" : ""}`
             }
           >
             Home
@@ -80,7 +80,7 @@ const Navbar = () => {
           {/* Theme toggle button */}
           <button
             onClick={handleThemeToggle}
-            className="text-xl hover:text-gray-400"
+            className="text-xl text-white hover:text-gray-400"
           >
             {isDarkMode ? <FaSun /> : <FaMoon />}
           </button>

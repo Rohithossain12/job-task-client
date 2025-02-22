@@ -71,7 +71,7 @@ const CreateTask = ({ refetch }) => {
         </label>
         <input
           type="text"
-          className="border border-gray-300 rounded-md w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="border border-gray-300 text-gray-800 rounded-md w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
           placeholder="Enter task name"
           value={task.name}
           onChange={(e) => setTask({ ...task, name: e.target.value })}
@@ -84,8 +84,8 @@ const CreateTask = ({ refetch }) => {
           Description
         </label>
         <textarea
-          className="border border-gray-300 rounded-md w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
-          placeholder="Enter task description"
+          className="border border-gray-300 text-gray-800 rounded-md w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
+          placeholder="Enter task description "
           value={task.description}
           onChange={(e) => setTask({ ...task, description: e.target.value })}
           rows="3"
