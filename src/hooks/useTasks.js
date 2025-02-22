@@ -6,7 +6,7 @@ const useTasks = () => {
   const { users } = useAuth();
   const email = users?.email;
 
-  console.log("Email in useTasks:", email); 
+ 
 
   const {
     refetch,

@@ -1,4 +1,3 @@
-
 import CreateTask from "./CreateTask";
 import ListTask from "./ListTask";
 import useAuth from "../hooks/useAuth";
@@ -8,12 +7,9 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import useTasks from "../hooks/useTasks";
 
 const Tasks = () => {
-  const [tasks, refetch, isLoading] = useTasks(); 
-  const { users, loading } = useAuth();
+  const [tasks, refetch, isLoading] = useTasks();
+  const { loading } = useAuth();
 
-  const email = users?.email;
-
-  
   if (isLoading || loading) return <LoadingSpinner />;
 
   return (

@@ -26,7 +26,9 @@ const TodoTask = ({ task, refetch }) => {
     toast(
       (t) => (
         <div className="flex flex-col space-y-3">
-          <p className="text-lg font-semibold">Are you sure you want to delete?</p>
+          <p className="text-lg font-semibold">
+            Are you sure you want to delete?
+          </p>
           <div className="flex justify-end space-x-2">
             <button
               onClick={() => {
@@ -53,14 +55,11 @@ const TodoTask = ({ task, refetch }) => {
   // Delete Task API Call
   const deleteTask = async (id) => {
     try {
-      await toast.promise(
-        axios.delete(`http://localhost:5000/tasks/${id}`),
-        {
-          loading: "Deleting task...",
-          success: "Task deleted successfully!",
-          error: "Failed to delete task.",
-        }
-      );
+      await toast.promise(axios.delete(`http://localhost:5000/tasks/${id}`), {
+        loading: "Deleting task...",
+        success: "Task deleted successfully!",
+        error: "Failed to delete task.",
+      });
       refetch();
     } catch (error) {
       console.error("Delete Error:", error);
