@@ -41,7 +41,7 @@ const CreateTask = ({ refetch }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/tasks",
+        "https://job-task-server-nine-black.vercel.app/tasks",
         taskData
       );
 

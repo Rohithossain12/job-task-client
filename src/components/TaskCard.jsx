@@ -31,7 +31,7 @@ const TaskCard = ({ status, tasks, refetch, todos, inProgress, done }) => {
 
   const addItemToSection = async (id) => {
     try {
-      const response = await axios.patch(`http://localhost:5000/tasks/${id}`, {
+      const response = await axios.patch(`https://job-task-server-nine-black.vercel.app/tasks/${id}`, {
         status: status,
       });
 

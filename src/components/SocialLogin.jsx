@@ -22,7 +22,7 @@ const SocialLogin = () => {
           photo: user?.photoURL,
         };
 
-        axios.post("http://localhost:5000/users", userData);
+        axios.post("https://job-task-server-nine-black.vercel.app/users", userData);
 
         navigate("/");
       })

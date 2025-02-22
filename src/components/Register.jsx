@@ -52,7 +52,7 @@ const Register = () => {
       };
 
       // Send user data to the database using Axios
-      await axios.post("http://localhost:5000/users", userData);
+      await axios.post("https://job-task-server-nine-black.vercel.app/users", userData);
       event.target.reset();
       navigate("/");
     } catch (error) {

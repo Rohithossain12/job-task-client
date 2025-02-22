@@ -55,7 +55,7 @@ const TodoTask = ({ task, refetch }) => {
   // Delete Task API Call
   const deleteTask = async (id) => {
     try {
-      await toast.promise(axios.delete(`http://localhost:5000/tasks/${id}`), {
+      await toast.promise(axios.delete(`https://job-task-server-nine-black.vercel.app/tasks/${id}`), {
         loading: "Deleting task...",
         success: "Task deleted successfully!",
         error: "Failed to delete task.",
@@ -81,7 +81,7 @@ const TodoTask = ({ task, refetch }) => {
   const handleUpdate = async () => {
     try {
       await toast.promise(
-        axios.put(`http://localhost:5000/tasks/${task._id}`, editedTask),
+        axios.put(`https://job-task-server-nine-black.vercel.app/tasks/${task._id}`, editedTask),
         {
           loading: "Updating task...",
           success: "Task updated successfully!",
