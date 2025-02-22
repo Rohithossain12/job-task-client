@@ -40,13 +40,12 @@ The project relies on the following dependencies:
 Follow these steps to set up and run the project:  
 
 1. **Clone the repository**  
-   ```sh
+   ```
    git clone https://github.com/Rohithossain12/job-task-client.git
-   cd task-manager
    ```  
 
 2. **Install dependencies**  
-   ```sh
+   ```
    npm install
    ```  
 
@@ -57,7 +56,7 @@ Follow these steps to set up and run the project:
    - Copy your Firebase config and add it to `.env`  
 
 4. **Run the project**  
-   ```sh
+   ```
    npm run dev
    ```  
 
