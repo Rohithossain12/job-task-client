@@ -6,8 +6,6 @@ const useTasks = () => {
   const { users } = useAuth();
   const email = users?.email;
 
- 
-
   const {
     refetch,
     data: tasks = [],
@@ -16,6 +14,7 @@ const useTasks = () => {
     queryKey: ["tasks", email],
     queryFn: async () => {
       const res = await axios.get(`https://job-task-server-nine-black.vercel.app/tasks?email=${email}`);
+      // const res = await axios.get(`http://localhost:5000/tasks?email=${email}`);
       return res.data;
     },
   });

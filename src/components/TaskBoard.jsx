@@ -1,18 +1,38 @@
-import { useDrag } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
-const TodoTask = ({ task, refetch }) => {
+const TaskBoard = ({ task, refetch, index, moveTask }) => {
+  const ref = useRef(null);
+
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
-    item: { id: task._id },
+    item: { id: task._id, index },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   }));
+
+  const [, drop] = useDrop({
+    accept: "task",
+    hover: (draggedItem) => {
+      if (draggedItem.index !== index) {
+       
+      }
+    },
+    drop: async (draggedItem) => {
+      if (draggedItem.index !== index) {
+        await moveTask(draggedItem.index, index); 
+        draggedItem.index = index;
+      }
+    },
+  });
+
+
+  drag(drop(ref));
 
   // State for editing task
   const [isEditing, setIsEditing] = useState(false);
@@ -97,7 +117,7 @@ const TodoTask = ({ task, refetch }) => {
 
   return (
     <div
-      ref={drag}
+      ref={ref}
       className={`relative p-5 mt-4 shadow-md rounded-md bg-white ${
         isDragging ? "opacity-25" : "opacity-100"
       } cursor-grab`}
@@ -151,4 +171,4 @@ const TodoTask = ({ task, refetch }) => {
   );
 };
 
-export default TodoTask;
+export default TaskBoard;
