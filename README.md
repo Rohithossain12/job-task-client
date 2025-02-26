@@ -6,7 +6,7 @@ A modern and efficient task management web application built with React, Firebas
 
 ## 🚀 Live Demo  
 
-[Live App](https://reliable-alpaca-b0beba.netlify.app/)  
+[Live App](https://job-task-client-xi.vercel.app/)  
 
 ## 📦 Dependencies  
 
