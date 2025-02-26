@@ -5,13 +5,13 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useState, useRef } from "react";
 
-const TaskBoard = ({ task, refetch, index, moveTask }) => {
+const TaskBoard = ({ task, refetch, index, moveTask, status }) => {
   const ref = useRef(null);
 
   // Drag for Desktop
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
-    item: { id: task._id, index },
+    item: { id: task._id, index, status },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -31,11 +31,14 @@ const TaskBoard = ({ task, refetch, index, moveTask }) => {
 
   //  Touch Drag State
   const [touchStartY, setTouchStartY] = useState(null);
+  const [touchStartX, setTouchStartX] = useState(null);
   const [touching, setTouching] = useState(false);
+  const [currentSection, setCurrentSection] = useState(status);
 
   //  Handle Touch Start
   const handleTouchStart = (e) => {
     setTouchStartY(e.touches[0].clientY);
+    setTouchStartX(e.touches[0].clientX);
     setTouching(true);
   };
 
@@ -43,27 +46,35 @@ const TaskBoard = ({ task, refetch, index, moveTask }) => {
   const handleTouchMove = (e) => {
     if (!touching) return;
     const touchY = e.touches[0].clientY;
-    const moveDistance = touchY - touchStartY;
+    const touchX = e.touches[0].clientX;
 
-    if (Math.abs(moveDistance) > 10) {
-      ref.current.style.transform = `translateY(${moveDistance}px)`;
+    // Move task visually
+    ref.current.style.transform = `translate(${touchX - touchStartX}px, ${touchY - touchStartY}px)`;
+
+    // Check which section task is over
+    const elements = document.elementsFromPoint(touchX, touchY);
+    const section = elements.find((el) => el.dataset.section);
+    if (section) {
+      setCurrentSection(section.dataset.section);
     }
   };
 
-  //  Handle Touch End
-  const handleTouchEnd = () => {
+  //  Handle Touch End (Drop Task)
+  const handleTouchEnd = async () => {
     setTouching(false);
-    ref.current.style.transform = "translateY(0)";
+    ref.current.style.transform = "translate(0,0)";
+
+    if (currentSection !== status) {
+      // If dropped in a different section, update status
+      await axios.patch(`https://job-task-server-nine-black.vercel.app/tasks/${task._id}`, {
+        status: currentSection,
+      });
+      toast.success("Task moved!");
+      refetch();
+    }
   };
 
-  //  Edit State
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedTask, setEditedTask] = useState({
-    name: task.name,
-    description: task.description,
-  });
-
-  // Handle Delete Confirmation
+  //  Handle Delete Task
   const handleDelete = async (id) => {
     toast(
       (t) => (
@@ -111,35 +122,6 @@ const TaskBoard = ({ task, refetch, index, moveTask }) => {
     }
   };
 
-  //  Handle Edit Click
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
-
-  //  Handle Edit Input Change
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditedTask({ ...editedTask, [name]: value });
-  };
-
-  //  Handle Update API Call
-  const handleUpdate = async () => {
-    try {
-      await toast.promise(
-        axios.put(`https://job-task-server-nine-black.vercel.app/tasks/${task._id}`, editedTask),
-        {
-          loading: "Updating task...",
-          success: "Task updated successfully!",
-          error: "Failed to update task.",
-        }
-      );
-      setIsEditing(false);
-      refetch();
-    } catch (error) {
-      console.error("Update Error:", error);
-    }
-  };
-
   return (
     <div
       ref={ref}
@@ -150,51 +132,14 @@ const TaskBoard = ({ task, refetch, index, moveTask }) => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {isEditing ? (
-        <div className="space-y-2">
-          <input
-            type="text"
-            name="name"
-            value={editedTask.name}
-            onChange={handleInputChange}
-            className="w-full border p-2 text-gray-800 rounded-md"
-          />
-          <textarea
-            name="description"
-            value={editedTask.description}
-            onChange={handleInputChange}
-            className="w-full border p-2 text-gray-800 rounded-md"
-          />
-          <div className="flex justify-end space-x-2">
-            <button
-              onClick={() => setIsEditing(false)}
-              className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleUpdate}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md"
-            >
-              Save
-            </button>
-          </div>
-        </div>
-      ) : (
-        <>
-          <p className="font-semibold text-gray-800 text-lg">{task?.name}</p>
-          <p className="overflow-hidden text-gray-800">{task.description}</p>
+      <p className="font-semibold text-gray-800 text-lg">{task?.name}</p>
+      <p className="overflow-hidden text-gray-800">{task.description}</p>
 
-          <div className="flex gap-4 absolute top-3 right-2 text-slate-500">
-            <button onClick={() => handleDelete(task._id)}>
-              <MdDeleteOutline size={20} />
-            </button>
-            <button onClick={handleEdit}>
-              <FaRegEdit size={18} />
-            </button>
-          </div>
-        </>
-      )}
+      <div className="flex gap-4 absolute top-3 right-2 text-slate-500">
+        <button onClick={() => handleDelete(task._id)}>
+          <MdDeleteOutline size={20} />
+        </button>
+      </div>
     </div>
   );
 };
