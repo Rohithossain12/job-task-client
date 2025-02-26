@@ -8,7 +8,7 @@ import TaskBoard from "./TaskBoard";
 const TaskCard = ({ status, refetch, todos, inProgress, done }) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "task",
-    drop: (item) => addItemToSection(item.id, item.status, item.index),
+    drop: (item) => addItemToSection(item.id, item.index),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
@@ -29,17 +29,15 @@ const TaskCard = ({ status, refetch, todos, inProgress, done }) => {
     tasksToMap = done;
   }
 
-  // 🟢 Handle Task Drop (Change Status)
-  const addItemToSection = async (id, oldStatus, oldIndex) => {
-    if (oldStatus === status) return; 
+  const addItemToSection = async (id, index) => {
     try {
       const response = await axios.patch(
         `https://job-task-server-nine-black.vercel.app/tasks/${id}`,
-        { status: status, order: tasksToMap.length }
+        { status: status, order: index }
       );
 
       if (response.data.modifiedCount > 0) {
-        toast.success("Task moved!");
+        toast.success("Task Status Changed!");
         refetch();
       }
     } catch (error) {
@@ -47,13 +45,13 @@ const TaskCard = ({ status, refetch, todos, inProgress, done }) => {
     }
   };
 
-  //  Handle Task Reordering
+  // Handle task movement
   const moveTask = async (dragIndex, hoverIndex) => {
     const updatedTasks = [...tasksToMap];
     const draggedTask = updatedTasks.splice(dragIndex, 1)[0];
     updatedTasks.splice(hoverIndex, 0, draggedTask);
 
-    // Update order in the database
+    // Update order in database
     try {
       await axios.patch(
         `https://job-task-server-nine-black.vercel.app/reorder`,
@@ -74,7 +72,6 @@ const TaskCard = ({ status, refetch, todos, inProgress, done }) => {
   return (
     <div
       ref={drop}
-      data-section={status} 
       className={`w-full rounded-md ${isOver ? "bg-slate-200" : ""}`}
     >
       <DesignTaskCard text={text} bg={bg} count={tasksToMap.length} />
@@ -85,7 +82,6 @@ const TaskCard = ({ status, refetch, todos, inProgress, done }) => {
             task={task}
             index={index}
             moveTask={moveTask}
-            status={status}
             refetch={refetch}
           />
         ))}
